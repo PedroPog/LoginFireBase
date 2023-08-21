@@ -1,6 +1,8 @@
 import { Component, inject } from '@angular/core';
 import { AuthService } from '../service/auth.service';
 import { getAuth } from 'firebase/auth';
+import { Usuario } from '../model/usuario.model';
+import { DataService } from '../service/data.service';
 
 
 @Component({
@@ -10,25 +12,66 @@ import { getAuth } from 'firebase/auth';
 })
 export class DashboardComponent {
   teste: string = '';
+
+  usuarioList: Usuario[]=[];
+  usuarioObj: Usuario = {
+    id: '',
+    name: '',
+    tipo: ''
+  }
+  id : string = '';
+  name: string = '';
+  tipo: string = '';
+
   constructor(
     private auth: AuthService,
-  ){}
-
-  logout(){
-    this.auth.logout();
+    private data: DataService,
+  ){
+    this.getAllUsuario();
   }
 
-  user(){
-    const auth = getAuth();
-    const user = auth.currentUser;
-    if (user !== null) {
-      user.providerData.forEach((profile) => {
-        console.log("Sign-in provider: " + profile.providerId);
-        console.log("  Provider-specific UID: " + profile.uid);
-        console.log("  Name: " + profile.displayName);
-        console.log("  Email: " + profile.email);
-        console.log("  Photo URL: " + profile.photoURL);
-      });
+
+
+  getAllUsuario(){
+    this.data.getAllUsuario().subscribe(res => {
+      this.usuarioList = res.map((e: any) =>{
+        const data = e.payload.doc.data();
+        data.id = e.payload.doc.id;
+        return data;
+      })
+    }, err =>{
+      alert('Erro sem usuario');
+    });
+  }
+
+  resetForm(){
+    this.id = '';
+    this.name = '';
+    this.tipo= '';
+  }
+
+
+  addUsuario(){
+    if(this.name == '' || this.tipo == ''){
+      alert('Fill all input fields');
     }
+    this.usuarioObj.id = '';
+    this.usuarioObj.name = this.name;
+    this.usuarioObj.tipo = this.tipo;
+
+
+    this.data.addUsuario(this.usuarioObj);
+    this.resetForm();
+  }
+
+  updateUsuario(){
+
+  }
+
+  deleteUsuario(usuario:Usuario){
+    if(window.confirm('Os seguintes dados serão deleteados '+usuario.name+' tem certeza desse procedimento? ')){
+      this.data.deleteUsuario(usuario);
+    }
+
   }
 }

@@ -1,16 +1,52 @@
-<button (click)="logout()">Logout</button>
-<div class="container">
-  <div class="row shadow">
-    <form>
-      <div class="mb-3">
-        <label for="exampleInputEmail1" class="form-label">Email address</label>
-        <input type="email" class="form-control" name="teste">
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-4 mt-5">
+      <div class="card border-0 shadow p-3">
+        <div class="form-floating mb-3 text-center">
+          <h5 class="text-center text-danger">Add usuario</h5>
+        </div>
+          <div class="form-floating mb-3">
+            <input type="text" class="form-control" id="name" name="name" placeholder="Nome" [(ngModel)]="name">
+            <label for="name">name</label>
+          </div>
+          <div class="form-floating">
+            <select class="form-select" id="tipo" name="name" [(ngModel)]="tipo">
+              <option selected>Open this select menu</option>
+              <option value="admin">Admin</option>
+              <option value="user">User</option>
+              <option value="guest">Guest</option>
+            </select>
+            <label for="tipo">Works with selects</label>
+          </div>
+          <button type="button" class="btn btn-outline-success" (click)="addUsuario()"></button>
       </div>
-      <div class="mb-3">
-        <label for="exampleInputPassword1" class="form-label">Password</label>
-        <input type="password" class="form-control" id="exampleInputPassword1">
+    </div>
+    <div class="col-md-8 mt-2">
+      <h5 class="text-danger">Usuario list</h5>
+      <div class="card p-3 shadow">
+        <div class="card-body">
+          <table class="table tablet-hover">
+            <thead>
+              <tr>
+                <th scope="col">id</th>
+                <th scope="col">Nome</th>
+                <th scope="col">Tipo</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let usuario of usuarioList">
+                <td>{{usuario.id}}</td>
+                <td>{{usuario.name}}</td>
+                <td>{{usuario.tipo}}</td>
+                <td>
+                  <button class="btn btn-outline-danger" (click)="deleteUsuario(usuario)">Delete</button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
-      <button type="submit" class="btn btn-primary" (click)="user()">Submit</button>
-    </form>
+    </div>
   </div>
 </div>
+
