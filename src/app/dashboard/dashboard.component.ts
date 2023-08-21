@@ -1,6 +1,5 @@
 import { Component, inject } from '@angular/core';
 import { AuthService } from '../service/auth.service';
-import { getAuth } from 'firebase/auth';
 import { Usuario } from '../model/usuario.model';
 import { DataService } from '../service/data.service';
 
@@ -26,22 +25,23 @@ export class DashboardComponent {
   constructor(
     private auth: AuthService,
     private data: DataService,
-  ){
+  ){}
+  ngOnInit(): void {
     this.getAllUsuario();
   }
 
 
-
   getAllUsuario(){
     this.data.getAllUsuario().subscribe(res => {
-      this.usuarioList = res.map((e: any) =>{
+      this.usuarioList = res.map((e: any) => {
         const data = e.payload.doc.data();
         data.id = e.payload.doc.id;
         return data;
       })
-    }, err =>{
-      alert('Erro sem usuario');
-    });
+
+    }, err => {
+      alert('Error while fetching student data');
+    })
   }
 
   resetForm(){

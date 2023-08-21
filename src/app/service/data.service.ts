@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { AngularFirestore } from '@angular/fire/compat/firestore'
+import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { Usuario } from '../model/usuario.model';
 
 @Injectable({
@@ -24,8 +24,7 @@ export class DataService {
     return this.afs.doc('/Usuario/'+usuario.id).delete();
   }
 
-  updateUsuario(usuario:Usuario){
-    this.deleteUsuario(usuario);
-    this.addUsuario(usuario);
+  updateUsuario(usuario: Usuario){
+    return this.afs.doc('/Usuario/'+usuario.id).update(usuario);
   }
 }
