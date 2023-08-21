@@ -12,9 +12,15 @@ constructor(
 ) { }
 
 login(email: string,password: string){
-  this.fireauth.signInWithEmailAndPassword(email,password).then(()=>{
+  this.fireauth.signInWithEmailAndPassword(email,password).then(res=>{
     localStorage.setItem('token','true');
-    this.router.navigate(['/dashboard']);
+
+
+    if(res.user?.emailVerified == true){
+      this.router.navigate(['/dashboard']);
+    }else{
+      this.router.navigate(['/verify-email']);
+    }
   },err => {
     alert('Erro');
     this.router.navigate(['/login']);
@@ -22,9 +28,10 @@ login(email: string,password: string){
 }
 
 register(email: string, password: string){
-  this.fireauth.createUserWithEmailAndPassword(email, password).then( () =>{
+  this.fireauth.createUserWithEmailAndPassword(email, password).then( res =>{
     alert('Registrando com sucesso!');
     this.router.navigate(['/login']);
+    this.sendEmailForVarification(res.user);
   }, err => {
     this.router.navigate(['/register']);
   })
@@ -38,4 +45,23 @@ logout(){
     alert(err.message);
   });
 }
+
+forgotPassword(email: string){
+  this.fireauth.sendPasswordResetEmail(email).then(() =>{
+  this.router.navigate(['/verify-email']);
+  },err =>{
+    alert('Erro!');
+  })
+}
+sendEmailForVarification(user : any) {
+  console.log(user);
+  user.sendEmailVerification().then((res : any) => {
+    this.router.navigate(['/verify-email']);
+  }, (err : any) => {
+    alert('Something went wrong. Not able to send mail to your email.')
+  })
+}
+
+
+
 }

@@ -19,7 +19,7 @@ export class LoginComponent implements OnInit {
 
   }
   login(){
-    /*if(this.email == ''){
+    if(this.email == ''){
       alert('Please enter email');
       return;
     }
@@ -30,6 +30,6 @@ export class LoginComponent implements OnInit {
 
     this.auth.login(this.email,this.password);
     this.email = '';
-    this.password = '';*/
+    this.password = '';
   }
 }
