@@ -16,11 +16,13 @@ export class DashboardComponent {
   usuarioObj: Usuario = {
     id: '',
     name: '',
-    tipo: ''
+    tipo: '',
+    email: '',
   }
   id : string = '';
   name: string = '';
   tipo: string = '';
+  email:string= '';
 
   constructor(
     private auth: AuthService,

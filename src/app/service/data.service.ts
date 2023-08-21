@@ -16,6 +16,10 @@ export class DataService {
     return this.afs.collection('/Usuario').add(usuario);
   }
 
+  getUsuario(usuario: Usuario){
+    return this.afs.doc('/Usuario/'+usuario.email).get;
+  }
+
   getAllUsuario(){
     return this.afs.collection('/Usuario').snapshotChanges();
   }
@@ -27,4 +31,9 @@ export class DataService {
   updateUsuario(usuario: Usuario){
     return this.afs.doc('/Usuario/'+usuario.id).update(usuario);
   }
+
+  getUsuarioByEmail(email: string) {
+    return this.afs.doc('/Usuario/' + email).get();
+  }
+
 }
