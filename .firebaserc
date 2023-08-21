@@ -1,0 +1,14 @@
+{
+  "targets": {
+    "login-cb57a": {
+      "hosting": {
+        "LoginFire": [
+          "login-cb57a"
+        ]
+      }
+    }
+  },
+  "projects": {
+    "default": "login-cb57a"
+  }
+}
