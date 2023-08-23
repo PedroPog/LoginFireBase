@@ -23,25 +23,37 @@ export class AuthService {
   login(email: string, password: string) {
     this.fireauth.signInWithEmailAndPassword(email, password)
       .then((res) => {
-        this.simularChamadaAPI(email).subscribe({
-          next: (resposta: Sessao) => {
-            this.sessaoService.salvarSessao(resposta);
-            if (res.user?.emailVerified === true) {
-              this.router.navigate(['/dashboard']);
-            } else {
-              this.router.navigate(['/verify-email']);
-            }
-          },
-          error: (erro: any) => {
-            alert(erro);
-          },
-        });
+        const emailDados = res.user?.email;
+        if (emailDados) {
+          this.simularChamadaAPI(email, emailDados, res).subscribe({
+            next: (resposta: Sessao) => {
+              this.data.getTipo(emailDados).subscribe((tipo) => {
+                console.log(tipo);
+                this.sessaoService.setTipoUsuario(tipo as string);
+                this.sessaoService.salvarSessao(resposta);
+
+                if (res.user?.emailVerified === true) {
+                  this.router.navigate(['/dashboard']);
+                } else {
+                  this.router.navigate(['/verify-email']);
+                }
+              });
+            },
+            error: (erro: any) => {
+              alert(erro);
+            },
+          });
+        } else {
+          // Lógica para lidar com um emailDados nulo ou indefinido, se necessário.
+        }
       })
       .catch((err) => {
         alert('Erro de login primaria');
         this.router.navigate(['/login']);
       });
   }
+
+
 
   register(email: string, password: string) {
     this.fireauth.createUserWithEmailAndPassword(email, password)
@@ -97,26 +109,29 @@ export class AuthService {
     );
   }
 
-  private simularChamadaAPI(email: string) {
+  private simularChamadaAPI(email: string,emailDados: any,res: any) {
 
-    return this.data.getUsuarioByEmail(email).pipe(
+    if (email === emailDados) {
+      const resposta: Sessao = {
+        accessToken: res.tipo,
+        nome: res.name,
+        tipoUsuario: res.tipo,
+      };
+      console.log(res.tipo,res.name);
+      return of(resposta);
+    } else {
+      return throwError(() => {
+        const error: any = new Error(`Usuário ou senha inválida`);
+        error.timestamp = Date.now();
+        return error;
+      });
+    }
+  }
+
+   /* return this.data.getUsuarioByEmail(email).pipe(
       switchMap((doc) => {
         let usuarioData = doc.data() as Usuario;
-        console.log(email);
 
-        if (email === usuarioData.email) {
-          const resposta: Sessao = {
-            accessToken: usuarioData.tipo,
-            nome: usuarioData.name,
-          };
-          return of(resposta);
-        } else {
-          return throwError(() => {
-            const error: any = new Error(`Usuário ou senha inválida`);
-            error.timestamp = Date.now();
-            return error;
-          });
-        }
       }),
       catchError((error: any) => {
         return throwError(() => {
@@ -125,8 +140,7 @@ export class AuthService {
           return customError;
         });
       })
-    );
-  }
+    );*/
 }
 
 

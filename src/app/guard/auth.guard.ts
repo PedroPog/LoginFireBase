@@ -32,25 +32,26 @@ export class AuthGuard{
       return this.router.parseUrl("/login");
     }
     const user = this.sessionService.getTipoUsuario();
+    console.log(user);
 
     switch (user) {
       case "admin":
         // Rotas permitidas para o usuário admin
-        if (route.data["roles"] && route.data["roles"].includes("admin")) {
+        if (route.data["roles"] && route.data["roles"].includes("Admin")) {
           return true;
         }
         break;
 
       case "user":
         // Rotas permitidas para o usuário comum
-        if (route.data["roles"] && route.data["roles"].includes("user")) {
+        if (route.data["roles"] && route.data["roles"].includes("User")) {
           return true;
         }
         break;
 
       case "guest":
         // Rotas permitidas para o usuário convidado
-        if (route.data["roles"] && route.data["roles"].includes("guest")) {
+        if (route.data["roles"] && route.data["roles"].includes("Guest")) {
           return true;
         }
         break;

@@ -1,6 +1,8 @@
 import { Injectable } from "@angular/core";
 import { BehaviorSubject } from "rxjs";
 import { Sessao } from "../model/sessao.model";
+import { DataService } from "./data.service";
+import { Usuario } from "../model/usuario.model";
 
 
 const CHAVE_ACCESS_TOKEN = "auth";
@@ -14,7 +16,9 @@ export class SessaoService {
   private sessao = new BehaviorSubject<Sessao | null>(null);
 
 
-  constructor() {
+  constructor(
+    private data: DataService,
+  ) {
     this.restaurarSessao();
   }
   restaurarSessao() {
@@ -51,7 +55,16 @@ export class SessaoService {
     return this.sessao.value !== null;
   }
 
-  getTipoUsuario()  {
-    return "";
+  setTipoUsuario(userTipo: string) {
+    const sessaoAtual = this.sessao.value;
+    if (sessaoAtual) {
+      sessaoAtual.tipoUsuario = userTipo;
+      this.salvarSessao(sessaoAtual);
+    }
+  }
+
+  getTipoUsuario(): string | null {
+    const sessaoAtual = this.sessao.value;
+    return sessaoAtual ? sessaoAtual.tipoUsuario : null;
   }
 }
