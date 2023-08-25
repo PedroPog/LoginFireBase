@@ -1,1 +1,15 @@
+<div *ngIf="
+        sessao$ | async as sessao;
+        else menuNaoLogado
+      ">
+  Olá {{ sessao.nome }}!
+  <a routerLink="/">Home</a> |
+  <a routerLink="/admin">Admin</a> |
+  <a routerLink="/user" >User</a> |
+  <a routerLink="/guest">Guest</a> |
+  <a routerLink="/login" (click)="logout()">Logout</a>
+</div>
 <router-outlet></router-outlet>
+<ng-template #menuNaoLogado>
+  usuário não logado
+</ng-template>
