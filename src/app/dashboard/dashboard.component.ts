@@ -2,6 +2,12 @@ import { Component, inject } from '@angular/core';
 import { AuthService } from '../service/auth.service';
 import { Usuario } from '../model/usuario.model';
 import { DataService } from '../service/data.service';
+import { MatTableDataSource } from '@angular/material/table';
+import { MatDialog } from '@angular/material/dialog';
+import { DialogComponent } from '../util/dialog/dialog.component';
+import { Empresa } from '../model/empresa.model';
+
+
 
 
 @Component({
@@ -10,6 +16,17 @@ import { DataService } from '../service/data.service';
   styleUrls: ['./dashboard.component.scss']
 })
 export class DashboardComponent {
+
+  DATABASE: Usuario[]= [];
+  displayedColumns: string[] = [
+    'id',
+    'name',
+    'tipo',
+    'email',
+  ];
+  datalist = new MatTableDataSource<Usuario>(this.DATABASE);
+
+
   teste: string = '';
 
   usuarioList: Usuario[]=[];
@@ -18,6 +35,7 @@ export class DashboardComponent {
     name: '',
     tipo: '',
     email: '',
+    cnpj: '',
   }
   id : string = '';
   name: string = '';
@@ -27,30 +45,45 @@ export class DashboardComponent {
   constructor(
     private auth: AuthService,
     private data: DataService,
-  ){}
+    public dialog: MatDialog,
+  ){
+    this.list();
+  }
   ngOnInit(): void {
     this.getAllUsuario();
+    //this.data.receberTipo();
   }
 
+  list(){
+    return this.data.getAllUsuario().subscribe((resultado) =>{
+      this.DATABASE = resultado.map((e:any) =>{
+        const data  = e.payload.doc.data();
+        data.id = e.payload.doc.id;
+        this.datalist = new MatTableDataSource<Usuario>(this.DATABASE);
+        console.log("passou aqui")
+        return data;
+      });
+
+    })
+  }
 
   getAllUsuario(){
     this.data.getAllUsuario().subscribe(res => {
       this.usuarioList = res.map((e: any) => {
-        const data = e.payload.doc.data();
-        data.id = e.payload.doc.id;
-        return data;
-      })
-
+      const data = e.payload.doc.data();
+      data.id = e.payload.doc.id;
+      return data;
+    })
     }, err => {
       alert('Error while fetching student data');
     })
   }
 
-  resetForm(){
+  /*resetForm(){
     this.id = '';
     this.name = '';
     this.tipo= '';
-  }
+  }*/
 
 
   addUsuario(){
@@ -63,7 +96,6 @@ export class DashboardComponent {
 
 
     this.data.addUsuario(this.usuarioObj);
-    this.resetForm();
   }
 
   updateUsuario(){
@@ -74,6 +106,17 @@ export class DashboardComponent {
     if(window.confirm('Os seguintes dados serão deleteados '+usuario.name+' tem certeza desse procedimento? ')){
       this.data.deleteUsuario(usuario);
     }
-
   }
+
+  openEdit(usuario:Usuario){
+    const dialogRef = this.dialog.open(DialogComponent,{
+      data: usuario,
+
+    });
+    dialogRef.afterClosed().subscribe(result =>{
+      console.log(`Dialog result: ${result}`);
+    })
+  }
+
+
 }

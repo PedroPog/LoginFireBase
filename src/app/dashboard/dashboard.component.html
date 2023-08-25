@@ -1,6 +1,6 @@
 <div class="container-fluid">
   <div class="row">
-    <div class="col-md-4 mt-5">
+    <!--<div class="col-md-4 mt-5">
       <div class="card border-0 shadow p-3">
         <div class="form-floating mb-3 text-center">
           <h5 class="text-center text-danger">Add usuario</h5>
@@ -20,9 +20,8 @@
           </div>
           <button type="button" class="btn btn-outline-success" (click)="addUsuario()"></button>
       </div>
-    </div>
-    <div class="col-md-8 mt-2">
-      <h5 class="text-danger">Usuario list</h5>
+    </div>-->
+    <div class="col-md-6 mt-2">
       <div class="card p-3 shadow">
         <div class="card-body">
           <table class="table tablet-hover">
@@ -39,6 +38,7 @@
                 <td>{{usuario.name}}</td>
                 <td>{{usuario.tipo}}</td>
                 <td>
+                  <button class="btn btn-outline-primary" >Edit</button>
                   <button class="btn btn-outline-danger" (click)="deleteUsuario(usuario)">Delete</button>
                 </td>
               </tr>
@@ -47,6 +47,19 @@
         </div>
       </div>
     </div>
+    <div class="col-md-3 mt-2">
+      <div class="card p-3 shadow">
+        <div class="col-md-12 mt-2">
+          <mat-list>
+            <div mat-subheader class="text-center ">Usuarios</div>
+            <mat-list-item *ngFor="let usuario of usuarioList" matRipple (click)="openEdit(usuario)">
+              <div matListItemTitle>Nome: {{usuario.name}}</div>
+              <div matListItemLine>Email: {{usuario.email}}</div>
+              <div matListItemLine>Tipo de usuario: {{usuario.tipo}}</div>
+            </mat-list-item>
+          </mat-list>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
-

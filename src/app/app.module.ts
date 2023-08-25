@@ -21,6 +21,14 @@ import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
 import { ErroComponent } from './util/erro/erro.component';
 import { VarifyEmailComponent } from './varify-email/varify-email.component';
+import {MatTableModule} from '@angular/material/table';
+import {MatListModule} from '@angular/material/list';
+import { DialogComponent } from './util/dialog/dialog.component';
+import {MatDialogModule} from '@angular/material/dialog';
+import {MatRippleModule} from '@angular/material/core';
+import {MatSelectModule} from '@angular/material/select';
+import {MatInputModule} from '@angular/material/input';
+
 
 @NgModule({
   declarations: [
@@ -33,12 +41,20 @@ import { VarifyEmailComponent } from './varify-email/varify-email.component';
     AdminComponent,
     UserComponent,
     GuestComponent,
-    ErroComponent
+    ErroComponent,
+    DialogComponent
   ],
   imports: [
     FormsModule,
+    MatButtonModule,
+    MatRippleModule,
+    MatTableModule,
+    MatInputModule,
+    MatDialogModule,
     BrowserModule,
     ReactiveFormsModule,
+    MatSelectModule,
+    MatListModule,
     AppRoutingModule,
     BrowserAnimationsModule,
     AngularFireModule.initializeApp(environment.firebase),
@@ -47,6 +63,7 @@ import { VarifyEmailComponent } from './varify-email/varify-email.component';
     MatMenuModule,
     MatIconModule,
     MatButtonModule,
+    MatCardModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

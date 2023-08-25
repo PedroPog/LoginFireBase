@@ -23,6 +23,7 @@ export class AuthService {
   login(email: string, password: string) {
     this.fireauth.signInWithEmailAndPassword(email, password)
       .then((res) => {
+        this.data.receberTipo(email);
         const emailDados = res.user?.email;
         if (emailDados) {
           this.simularChamadaAPI(email, emailDados, res).subscribe({
@@ -66,6 +67,7 @@ export class AuthService {
           name: 'Temp',
           tipo: 'Guest',
           email: email,
+          cnpj: '',
         };
         this.data.addUsuario(newUser);
       })
@@ -77,7 +79,7 @@ export class AuthService {
   logout() {
     this.fireauth.signOut().then(
       () => {
-        //localStorage.removeItem('token');
+        localStorage.removeItem('tipo');
         this.sessaoService.limparSessao();
         this.router.navigate(['/login']);
       },
@@ -117,7 +119,6 @@ export class AuthService {
         nome: res.name,
         tipoUsuario: res.tipo,
       };
-      console.log(res.tipo,res.name);
       return of(resposta);
     } else {
       return throwError(() => {
@@ -128,19 +129,6 @@ export class AuthService {
     }
   }
 
-   /* return this.data.getUsuarioByEmail(email).pipe(
-      switchMap((doc) => {
-        let usuarioData = doc.data() as Usuario;
-
-      }),
-      catchError((error: any) => {
-        return throwError(() => {
-          const customError: any = new Error(`Usuário não encontrado`);
-          customError.timestamp = Date.now();
-          return customError;
-        });
-      })
-    );*/
 }
 
 

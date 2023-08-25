@@ -2,8 +2,6 @@ import { Injectable } from "@angular/core";
 import { BehaviorSubject } from "rxjs";
 import { Sessao } from "../model/sessao.model";
 import { DataService } from "./data.service";
-import { Usuario } from "../model/usuario.model";
-
 
 const CHAVE_ACCESS_TOKEN = "auth";
 
