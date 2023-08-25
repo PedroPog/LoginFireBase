@@ -11,6 +11,7 @@ import { GuestComponent } from './components/guest/guest.component';
 import { UserComponent } from './components/user/user.component';
 import { ErroComponent } from './util/erro/erro.component';
 
+
 const routes: Routes = [
   {path: '', redirectTo:'dashboard', pathMatch: 'full'},
   {path: 'login', component: LoginComponent},
@@ -19,7 +20,6 @@ const routes: Routes = [
   {path: 'verify-email', component: VarifyEmailComponent},
   {path: 'forgot-password', component: ForgotPasswordComponent},
   {path: 'error', component: ErroComponent},
-
   { path: "admin", component: AdminComponent, canActivate: [AuthGuard], data: { roles: ["admin"] } },
   { path: "user", component: UserComponent, canActivate: [AuthGuard], data: { roles: ["user"] } },
   { path: "guest", component: GuestComponent, canActivate: [AuthGuard], data: { roles: ["guest"] } },

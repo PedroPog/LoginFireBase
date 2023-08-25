@@ -46,10 +46,15 @@ export class LoginComponent implements OnInit {
   }
   login(){
     if(this.formGroup.invalid){
+    if(this.email == ''){
+      alert('Please enter email');
       return;
     }
-    const { email, password } = this.formGroup.value;
-
+    if(this.password == ''){
+      alert('Please enter password');
     this.auth.login(email,password);
+    this.auth.login(this.email,this.password);
+    this.email = '';
+    this.password = '';
   }
 }

@@ -15,6 +15,10 @@ import { AppComponent } from './app.component';
 import { AdminComponent } from './components/admin/admin.component';
 import { GuestComponent } from './components/guest/guest.component';
 import { UserComponent } from './components/user/user.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { environment } from '../environments/environment';
+import { provideAuth,getAuth } from '@angular/fire/auth';
+import { LoginComponent } from './login/login.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
 import { LoginComponent } from './login/login.component';
@@ -28,7 +32,11 @@ import {MatDialogModule} from '@angular/material/dialog';
 import {MatRippleModule} from '@angular/material/core';
 import {MatSelectModule} from '@angular/material/select';
 import {MatInputModule} from '@angular/material/input';
-
+import { FormsModule } from '@angular/forms';
+import { provideFirestore,getFirestore } from '@angular/fire/firestore';
+import { AngularFireModule } from '@angular/fire/compat';
+import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
+import { VarifyEmailComponent } from './varify-email/varify-email.component';
 
 @NgModule({
   declarations: [
@@ -43,6 +51,7 @@ import {MatInputModule} from '@angular/material/input';
     GuestComponent,
     ErroComponent,
     DialogComponent
+    VarifyEmailComponent
   ],
   imports: [
     FormsModule,
@@ -58,12 +67,14 @@ import {MatInputModule} from '@angular/material/input';
     AppRoutingModule,
     BrowserAnimationsModule,
     AngularFireModule.initializeApp(environment.firebase),
+    provideAuth(() => getAuth()),
     MatGridListModule,
     MatCardModule,
     MatMenuModule,
     MatIconModule,
     MatButtonModule,
     MatCardModule,
+    provideFirestore(() => getFirestore())
   ],
   providers: [],
   bootstrap: [AppComponent]

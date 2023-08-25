@@ -6,8 +6,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogComponent } from '../util/dialog/dialog.component';
 import { Empresa } from '../model/empresa.model';
-
-
+import { getAuth } from 'firebase/auth';
 
 
 @Component({
@@ -117,6 +116,4 @@ export class DashboardComponent {
       console.log(`Dialog result: ${result}`);
     })
   }
-
-
 }
