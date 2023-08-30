@@ -60,7 +60,7 @@ export class DashboardComponent {
         const data  = e.payload.doc.data();
         data.id = e.payload.doc.id;
         this.datalist = new MatTableDataSource<Usuario>(this.DATABASE);
-        console.log("passou aqui")
+        console.log("passou aqui");
         return data;
       });
 

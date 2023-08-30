@@ -43,22 +43,27 @@ export class DataService {
   }
 
   receberTipo(email: string) {
-    this.afs.collection('/Usuario', ref => ref.where('email', '==', email))
+    console.log('chegou no receberTipo' + email);
+    this.afs
+      .collection('/Usuario', (ref) => ref.where('email', '==', email))
       .valueChanges()
       .subscribe((dados: any[]) => {
+        console.log('recebertipo nivel 1');
         if (dados.length > 0) {
           const usuario = dados[0];
           const usuarioId = usuario.id;
           var nome = this.afs.collection('/Usuario').doc(usuarioId);
-          nome.get().subscribe((doc: { exists: any; data: () => any; })=>{
-            var tipo = doc.data().tipo
-            localStorage.setItem("tipo",tipo);
-            console.log("Salvo "+localStorage.getItem("tipo"));
-          })
+          console.log(nome + 'recebertipo nivel 2');
+          nome.get().subscribe((doc: { exists: any; data: () => any }) => {
+            var tipo = doc.data().tipo;
+            localStorage.setItem('tipo', tipo);
+            console.log('Salvo ' + localStorage.getItem('tipo'));
+          });
         } else {
           console.log('Nenhum usuário encontrado com o email fornecido.');
         }
       });
+    console.log('Finalizou o receberTipo ' + localStorage.getItem('tipo'));
   }
     /*var nome = this.afs.collection('/Usuario').doc();
     nome.get().subscribe((doc: { exists: any; data: () => any; })=>{

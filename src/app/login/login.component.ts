@@ -1,7 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../service/auth.service';
-import { Router } from "@angular/router";
-import { of, throwError } from "rxjs";
 import { SessaoService } from "../service/sessao.service";
 import {
   FormControl,
